@@ -4,7 +4,9 @@ trigger:
       - main  
 
 pool:
-  vmImage: 'ubuntu-latest'  
+  name: 'Default'
+  demands:
+    - agent.name -equals instance-20241104-101945
 
 steps:
 - checkout: self  
