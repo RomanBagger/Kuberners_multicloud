@@ -1,0 +1,15 @@
+trigger:
+  branches:
+    include:
+      - main  
+
+pool:
+  vmImage: 'ubuntu-latest'  
+
+steps:
+- checkout: self  
+
+- script: |
+    echo "Hello, Azure DevOps!"
+    echo "Pipeline запущен успешно."
+  displayName: 'Приветственное сообщение'
