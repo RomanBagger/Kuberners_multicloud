@@ -25,6 +25,7 @@ steps:
     backendType: 'gcs'
     backendBucketName: 'bucket-for-tfstate-and-azure-pipeline'
     backendPrefix: 'terraform/state'
+    backendServiceGCP: "my connect"
 
 - task: TerraformTaskV4@4
   inputs:
