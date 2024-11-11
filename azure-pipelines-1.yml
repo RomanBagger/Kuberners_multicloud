@@ -1,0 +1,47 @@
+trigger:
+  branches:
+    include:
+      - main  
+
+pool:
+  name: 'Default'
+  demands:
+    - agent.name -equals instance-20241104-101945
+
+variables:
+  GOOGLE_APPLICATION_CREDENTIALS: '$(System.DefaultWorkingDirectory)/gcp-key.json'
+
+steps:
+- checkout: self  
+
+# Создаем файл с ключом аутентификации для Google Cloud
+- script: echo "$(GOOGLE_CREDENTIALS)" > $(GOOGLE_APPLICATION_CREDENTIALS)
+  displayName: 'Создание файла с ключом Google Cloud'
+
+# Инициализация Terraform с GCS в качестве бэкенда
+- task: TerraformTaskV4@4
+  inputs:
+    workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
+    command: 'init'
+    backendType: 'gcs'  # Указываем, что используем GCS как бэкенд
+    backendBucketName: 'your-gcs-bucket-name'  # Имя вашего GCS бакета
+    backendPrefix: 'terraform/state'  # Префикс для состояния
+
+# Валидация Terraform
+- task: TerraformTaskV4@4
+  inputs:
+    workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
+    command: 'validate'
+
+# Планирование Terraform
+- task: TerraformTaskV4@4
+  inputs:
+    workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
+    command: 'plan'
+
+# Применение изменений Terraform
+- task: TerraformTaskV4@4
+  inputs:
+    workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
+    command: 'apply'
+    commandOptions: '-auto-approve'
