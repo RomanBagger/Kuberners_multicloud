@@ -11,7 +11,23 @@ pool:
 steps:
 - checkout: self  
 
-- script: |
-    echo "Hello, Azure DevOps!"
-    echo "Pipeline запущен успешно."
-  displayName: 'Приветственное сообщение'
+- task: TerraformTaskV4@4
+  inputs:
+    workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
+    command: 'init'
+
+- task: TerraformTaskV4@4
+  inputs:
+    workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
+    command: 'validate'
+
+- task: TerraformTaskV4@4
+  inputs:
+    workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
+    command: 'plan'
+
+- task: TerraformTaskV4@4
+  inputs:
+    workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
+    command: 'apply'
+    commandOptions: '-auto-approve'
