@@ -1,4 +1,8 @@
 terraform {
+  backend "gsc" {
+    bucket = "bucket-for-tfstate-and-azure-pipeline"
+    prefix = "terraform/state"
+  }
   required_providers {
     google = {
       source = "hashicorp/google"
