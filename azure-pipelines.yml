@@ -22,6 +22,7 @@ steps:
   inputs:
     workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
     command: 'init'
+    backendGCPBucketName: "bucket-for-tfstate-and-azure-pipeline"
 
 - task: TerraformTaskV4@4
   inputs:
