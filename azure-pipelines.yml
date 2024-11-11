@@ -16,6 +16,11 @@ steps:
 
 - script: echo "$(GOOGLE_CREDENTIALS)" > $(GOOGLE_APPLICATION_CREDENTIALS)
   displayName: 'Создание файла с ключом Google Cloud'
+
+- script: |
+    echo "Contents of $(System.DefaultWorkingDirectory)/gke-cluster:"
+    ls -al $(System.DefaultWorkingDirectory)/gke-cluster
+  displayName: 'List contents of gke-cluster directory'
 - task: TerraformTaskV4@4
   inputs:
     workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
