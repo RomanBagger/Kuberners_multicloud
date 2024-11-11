@@ -20,6 +20,7 @@ steps:
 
 - task: TerraformTaskV4@4
   inputs:
+    provider: "gcp"
     workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
     command: 'init'
     backendType: 'gcs'
@@ -29,16 +30,19 @@ steps:
 
 - task: TerraformTaskV4@4
   inputs:
+    provider: "gcp"
     workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
     command: 'validate'
 
 - task: TerraformTaskV4@4
   inputs:
+    provider: "gcp"
     workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
     command: 'plan'
 
 - task: TerraformTaskV4@4
   inputs:
+    provider: "gcp"
     workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
     command: 'apply'
     commandOptions: '-auto-approve'
