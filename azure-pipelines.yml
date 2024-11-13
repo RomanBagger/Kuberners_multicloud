@@ -29,6 +29,7 @@ steps:
 
 - script: |
       echo "Authenticating to Google Cloud..."
+      export GOOGLE_APPLICATION_CREDENTIALS="$(Agent.TempDirectory)/$(gcpKeyFile.secureFilePath)"
       gcloud auth activate-service-account --key-file=$(Agent.TempDirectory)/$(gcpKeyFile.secureFilePath)
       gcloud config set project $PROJECT_ID
   displayName: 'Authenticate to Google Cloud'
