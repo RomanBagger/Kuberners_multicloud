@@ -36,7 +36,8 @@ steps:
       echo "Creating GKE Cluster..."
       gcloud container clusters create $CLUSTER_NAME \
         --region $REGION \
-        --num-nodes=2 \
+        --num-nodes=1 \
+        --machine-type=e2-small \  
         --enable-ip-alias
   displayName: 'Create GKE Cluster'
 
