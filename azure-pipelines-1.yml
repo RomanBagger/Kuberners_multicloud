@@ -24,11 +24,12 @@ steps:
   displayName: "install nginx-controller" 
 
 - script: |
-    kubectl apply -f $(System.DefaultWorkingDirectory)/gke-cluster/ingress.yaml \
-    kubectl create deployment nginx --image=nginx --replicas=2 \
-    kubectl expose deployment nginx --port=80 \ 
-    kubectl create deployment tomcat --image=8.5.13 --replicas=2 \
+    echo "Deploying applications..."
+    kubectl apply -f $(System.DefaultWorkingDirectory)/gke-cluster/ingress.yaml
+    kubectl create deployment nginx --image=nginx --replicas=2
+    kubectl expose deployment nginx --port=80
+    kubectl create deployment tomcat --image=tomcat:8.5.13 --replicas=2
     kubectl expose deployment tomcat --port=8080
-  displayName: "install apps"
+  displayName: 'Install apps'
   
 
