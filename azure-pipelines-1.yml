@@ -13,10 +13,10 @@ steps:
   displayName: 'Connect to GKE cluster'
 
 - script: |
-    helm repo add ingress-nginx \
-    https://kubernetes.github.io/ingress-nginx \
+    echo "Updating Helm repository..."
+    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
     helm repo update
-  displayName: 'update repo'
+  displayName: 'Update Helm repo'
   
 - script: |
     helm install my-ing ingress-nginx/ingress-nginx \
