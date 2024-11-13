@@ -1,7 +1,4 @@
-trigger:
-  branches:
-    include:
-      - main 
+trigger: none
 
 pool:
   name: 'Default'
@@ -33,4 +30,5 @@ steps:
     kubectl create deployment tomcat --image=8.5.13 --replicas=2 \
     kubectl expose deployment tomcat --port=8080
   displayName: "install apps"
+  
 
