@@ -16,6 +16,7 @@ variables:
 
 steps:
 - task: DownloadSecureFile@1
+  name: gcpKeyFile
   inputs:
     secureFile: 'velvety-gearbox-439710-c9-56ac3fa77c53.json'
 
