@@ -9,41 +9,40 @@ pool:
     - agent.name -equals instance-20241104-101945
 
 variables:
-  GOOGLE_APPLICATION_CREDENTIALS: '$(System.DefaultWorkingDirectory)/gcp-key.json'
+  PROJECT_ID: 'velvety-gearbox-439710-c9'  
+  CLUSTER_NAME: 'test-gke-cluster' 
+  REGION: 'us-central1'  
+  ZONE: 'us-central1-a'
 
 steps:
-- checkout: self  
-
-- script: echo "$(GOOGLE_CREDENTIALS)" > $(GOOGLE_APPLICATION_CREDENTIALS)
-  displayName: 'Создание файла с ключом Google Cloud'
-
-
-- task: TerraformTaskV4@4
+- task: DownloadSecureFile@1
   inputs:
-    provider: "gcp"
-    workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
-    command: 'init'
-    backendType: 'gcs'
-    backendBucketName: 'bucket-for-tfstate-and-azure-pipeline'
-    backendPrefix: 'terraform/state'
-    
+    secureFile: 'velvety-gearbox-439710-c9-56ac3fa77c53.json'
 
-- task: TerraformTaskV4@4
-  inputs:
-    provider: "gcp"
-    workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
-    command: 'validate'
+- script: |
+      echo "Installing Google Cloud SDK..."
+      sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates gnupg
+      echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+      sudo apt-get update && sudo apt-get install -y google-cloud-sdk
+  displayName: 'Install Google Cloud SDK'
 
-- task: TerraformTaskV4@4
-  inputs:
-    provider: "gcp"
-    workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
-    command: 'plan'
+- script: |
+      echo "Authenticating to Google Cloud..."
+      gcloud auth activate-service-account --key-file=$(Agent.TempDirectory)/$(gcpKeyFile.secureFilePath)
+      gcloud config set project $PROJECT_ID
+  displayName: 'Authenticate to Google Cloud'
 
-- task: TerraformTaskV4@4
-  inputs:
-    provider: "gcp"
-    workingDirectory: '$(System.DefaultWorkingDirectory)/gke-cluster'
-    command: 'apply'
-    commandOptions: '-auto-approve'
-    
+- script: |
+      echo "Creating GKE Cluster..."
+      gcloud container clusters create $CLUSTER_NAME \
+        --region $REGION \
+        --num-nodes=2 \
+        --enable-ip-alias
+  displayName: 'Create GKE Cluster'
+
+- script: |
+      echo "Getting credentials for GKE Cluster..."
+      gcloud container clusters get-credentials $CLUSTER_NAME --region $REGION
+  displayName: 'Get GKE Cluster Credentials'
+
+
