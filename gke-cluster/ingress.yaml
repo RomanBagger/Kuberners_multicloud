@@ -1,0 +1,28 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ing
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: external-nginx
+  rules:
+  - host: 
+    http:
+      paths:
+      - path: /app1
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx
+            port:
+              number: 80 
+      - path: /app2
+        pathType: Prefix
+        backend:
+          service:
+            name: tomcat
+            port:
+              number: 8080
