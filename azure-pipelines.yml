@@ -21,20 +21,6 @@ steps:
     secureFile: 'velvety-gearbox-439710-c9-56ac3fa77c53.json'
 
 - script: |
-      echo "Installing Google Cloud SDK..."
-      sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates gnupg
-      echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-      sudo apt-get update && sudo apt-get install -y google-cloud-sdk
-  displayName: 'Install Google Cloud SDK'
-
-- script: |
-      echo "Authenticating to Google Cloud..."
-      export GOOGLE_APPLICATION_CREDENTIALS="$(Agent.TempDirectory)/$(gcpKeyFile.secureFilePath)"
-      gcloud auth activate-service-account --key-file=$(GOOGLE_APPLICATION_CREDENTIALS)
-      gcloud config set project $PROJECT_ID
-  displayName: 'Authenticate to Google Cloud'
-
-- script: |
       echo "Creating GKE Cluster..."
       gcloud container clusters create $CLUSTER_NAME \
         --region $REGION \
