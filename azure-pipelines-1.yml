@@ -22,7 +22,7 @@ steps:
     helm install my-ing ingress-nginx/ingress-nginx \
     --namespace ingress \
     --version 4.0.17 \
-    --values nginx-values.yaml \
+    --values $(System.DefaultWorkingDirectory)/gke-cluster/nginx-values.yaml \
     --create-namespace
   displayName: "install nginx-controller" 
 
