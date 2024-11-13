@@ -1,0 +1,28 @@
+trigger:
+  branches:
+    include:
+      - main 
+
+pool:
+  name: 'Default'
+  demands:
+    - agent.name -equals instance-20241104-101945
+
+steps:
+- script: gcloud container clusters get-credentials test-gke-cluster --region us-central1 --project velvety-gearbox-439710-c9
+  displayName: 'Connect to GKE cluster'
+
+- script: |
+    helm repo add ingress-nginx \
+    https://kubernetes.github.io/ingress-nginx \
+    helm repo update
+  displayName: 'update repo'
+  
+- script: |
+    helm install my-ing ingress-nginx/ingress-nginx \
+    --namespace ingress \
+    --version 4.0.17 \
+    --values nginx-values.yaml \
+    --create-namespace
+  displayName: "install nginx-controller" 
+
