@@ -12,6 +12,6 @@ terraform {
 }
 
 provider "google" {
-  project     = "My First Project"
+  project     = "velvety-gearbox-439710-c9"
   region      = "us-central1"
 }
