@@ -27,3 +27,7 @@ steps:
   workingDirectory: $(Working_Directory)
   displayName: 'Terraform Apply'
 
+- script: |
+    terraform destroy -input=false -auto-approve tfplan
+  workingDirectory: $(Working_Directory)
+  displayName: 'Terraform destroy'
