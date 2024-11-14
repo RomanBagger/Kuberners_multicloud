@@ -1,5 +1,5 @@
 terraform {
-  backend "gsc" {
+  backend "gcp" {
     bucket = "bucket-for-tfstate-and-azure-pipeline"
     prefix = "terraform/state"
   }
