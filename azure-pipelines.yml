@@ -13,6 +13,6 @@ variables:
 steps:
 
 - script: |
-    terraform destroy -input=false -auto-approve tfplan
+    terraform destroy -input=false -auto-approve
   workingDirectory: $(Working_Directory)
   displayName: 'Terraform destroy'
