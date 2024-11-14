@@ -7,13 +7,8 @@ resource "google_compute_firewall" "default" {
   }
 
   allow {
-    protocol = "ssh"
-    ports = ["22"]
-  }
-
-  allow {
     protocol = "tcp"
-    ports    = ["80", "8080", "1000-2000"]
+    ports    = ["80", "8080", "22","1000-2000"]
   }
 
   source_ranges = [ "0.0.0.0/0" ]
