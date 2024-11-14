@@ -11,12 +11,6 @@ variables:
   Project_GCP: 'velvety-gearbox-439710-c9'
 
 steps:
-- task: UseGCP@0
-  inputs:
-    serviceAccountKey: $(GCP_SERVICE_CONNECTION)
-    project: $(Project_GCP)
-    versionSpec: 'latest'
-  displayName: 'Authenticate with GCP'
 
 - script: |
     terraform init -input=false
