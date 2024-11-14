@@ -8,13 +8,20 @@ resource "google_compute_address" "address" {
   }
 }
 
-resource "google_compute_router_nat" "nat_manual" {
+resource "google_compute_router_nat_address" "nat_address" {
+  nat_ips = [google_compute_address.address[0].self_link, google_compute_address.address[1].self_link]
+  router = google_compute_router.router.name
+  router_nat = google_compute_router_nat.router_nat.name
+  region = google_compute_router_nat.router_nat.region
+}
+
+resource "google_compute_router_nat" "router_nat" {
   name   = "my-router-nat"
   router = google_compute_router.router.name
   region = google_compute_router.router.region
 
   nat_ip_allocate_option = "MANUAL_ONLY"
-  nat_ips                = [google_compute_address.address.*.self-link]
+  nat_ips                = [google_compute_address.address[0].self_link]
 
   source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
 
