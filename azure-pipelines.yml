@@ -13,21 +13,6 @@ variables:
 steps:
 
 - script: |
-    terraform init -input=false
-  workingDirectory: $(Working_Directory)
-  displayName: 'Terraform Init'
-
-- script: |
-    terraform plan -input=false -out=tfplan
-  workingDirectory: $(Working_Directory)
-  displayName: 'Terraform Plan'
-
-- script: |
-    terraform apply -input=false -auto-approve tfplan
-  workingDirectory: $(Working_Directory)
-  displayName: 'Terraform Apply'
-
-- script: |
     terraform destroy -input=false -auto-approve tfplan
   workingDirectory: $(Working_Directory)
   displayName: 'Terraform destroy'
