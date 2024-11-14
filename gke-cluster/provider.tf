@@ -12,6 +12,6 @@ terraform {
 }
 
 provider "google" {
-  project     = "my-project-test"
+  project     = "My First Project"
   region      = "us-central1"
 }
