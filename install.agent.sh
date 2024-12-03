@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 #Terraform for deploy kubernetes 
 sudo apt update
