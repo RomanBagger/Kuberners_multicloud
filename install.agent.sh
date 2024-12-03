@@ -18,6 +18,7 @@ sudo tee /etc/apt/sources.list.d/hashicorp.list
 
 sudo apt update
 sudo apt-get install terraform
+sudo apt install docker.io
 
 #Install agent 
 mkdir myagent && cd myagent
